@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{self, BufRead};
+use std::io::{self, BufRead, Error};
 use std::path::Path;
 
 pub fn run1(line: &str, acc: (Vec<i32>, i32)) -> (Vec<i32>, i32){
@@ -31,24 +31,24 @@ pub fn run2(line: &str, acc: (Vec<i32>, (i32, i32, i32))) -> (Vec<i32>, (i32, i3
     }
 }
 
-fn reduce_input_lines<T>(filename: &String, function: &dyn Fn(&str, T) -> T, start_value: T) -> Result<T, &'static str> {
-    if let Ok(lines) = read_lines(format!("./inputs/{}.txt", filename)){
-        let mut last = start_value;
-        for line in lines {
-            last = function(line.unwrap().as_str(), last)
-        }
-        last = function("", last);
-        return Ok(last)
-    }else{
-        return Err("could not read file")       
+fn reduce_input_lines<T>(filename: &String, function: &dyn Fn(&str, T) -> T, start_value: T) -> Result<T, Error> 
+    where String: AsRef<Path>{
+    let file_path = format!("./inputs/{}.txt", filename);
+    let file = File::open(file_path)?;
+    let lines = io::BufReader::new(file).lines();
+    let mut last = start_value;
+    for line in lines {
+        last = function(line.unwrap().as_str(), last)
     }
+    last = function("", last);
+    return Ok(last)
 }
 
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where P: AsRef<Path>, {
-    let file = File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
-}
+// fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
+// where P: AsRef<Path>, {
+    // let file = File::open(filename)?;
+    // Ok(io::BufReader::new(file).lines())
+// }
 
 
 pub fn output_results() {

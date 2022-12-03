@@ -4,6 +4,7 @@ use std::env;
 
 use days::day1;
 use days::day2;
+use days::day3;
 
 fn main() {
     if env::args().len() == 2 {
@@ -12,6 +13,7 @@ fn main() {
         match first_argument.as_str() {
             "day1" => day1::output_results(),
             "day2" => day2::output_results(),
+            "day3" => day3::output_results(),
             _ => println!("FAILED")
         }
     }else if env::args().len() < 2{
