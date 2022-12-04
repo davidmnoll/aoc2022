@@ -14,7 +14,7 @@ pub const DAY : days::Day<Day4Type1, Day4Type2> = days::Day {
 };
 
 fn run1 (line: &str, acc: Day4Type1) -> Day4Type1 {
-    if(line.is_empty()){
+    if line.is_empty() {
         return acc;
     }
     let re = Regex::new(r"^([0-9]+)\-([0-9]+),([0-9]+)\-([0-9]+)$").unwrap();
@@ -29,7 +29,20 @@ fn run1 (line: &str, acc: Day4Type1) -> Day4Type1 {
 }
 
 fn run2 (line: &str, acc: Day4Type2) -> Day4Type2 {
-    acc
+    if line.is_empty() {
+        return acc;
+    }
+    let re = Regex::new(r"^([0-9]+)\-([0-9]+),([0-9]+)\-([0-9]+)$").unwrap();
+    let matches = re.captures(line).unwrap();
+    let range1start = matches.get(1).unwrap().as_str().parse::<u32>().unwrap();
+    let range1end = matches.get(2).unwrap().as_str().parse::<u32>().unwrap();
+    let range2start = matches.get(3).unwrap().as_str().parse::<u32>().unwrap();
+    let range2end = matches.get(4).unwrap().as_str().parse::<u32>().unwrap();
+    let range1starts_in_middle = range1start >= range2start && range1start <= range2end;
+    let range1ends_in_middle = range1end >= range2start && range1end <= range2end;
+    let range2starts_in_middle = range2start >= range1start && range2start <= range1end;
+    let range2ends_in_middle = range2end >= range1start && range2end <= range1end;
+    return if range1ends_in_middle || range1starts_in_middle || range2starts_in_middle || range2ends_in_middle { acc + 1 } else { acc };
 }
 
 
@@ -52,6 +65,13 @@ mod tests {
 
     #[test]
     fn test_run2 () {
-
+        let res = run2("2-4,6-8", 0);
+        let res = run2("2-3,4-5", res);
+        let res = run2("5-7,7-9", res);
+        let res = run2("2-8,3-7", res);
+        let res = run2("6-6,4-6", res);
+        let res = run2("2-6,4-8", res);
+        
+        assert!(res == 4, "{:?} did not equal 4", res);
     }
 }
