@@ -105,7 +105,7 @@ mod tests {
 
     #[test]
     fn run1_runs() {
-        let mut res = run1("vJrwpWtwJgWrhcsFMMfFFhFp", 0);
+        let res = run1("vJrwpWtwJgWrhcsFMMfFFhFp", 0);
         let res = run1("jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL", res);
         let res = run1("\n", res);
         let res = run1("PmmdzqPrVvPwwTWBwg", res);
@@ -122,7 +122,7 @@ mod tests {
 
     #[test]
     fn run2_runs() {
-        let mut res = run2("vJrwpWtwJgWrhcsFMMfFFhFp", (( String::new(), String::new()),0));
+        let res = run2("vJrwpWtwJgWrhcsFMMfFFhFp", (( String::new(), String::new()),0));
         println!(" score is : {:?}", res);
         let res = run2("jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL", res);
         println!(" score is : {:?}", res);

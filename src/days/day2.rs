@@ -1,5 +1,6 @@
-use crate::days;
 use regex::Regex;
+
+use crate::days;
 
 pub fn run1(line: &str, acc: i32) -> i32 {
     let re = Regex::new(r"^([ABC]) ([XYZ])$").unwrap();
