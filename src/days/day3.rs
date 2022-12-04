@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{self, BufRead, Error};
+use std::io::{self, BufRead};
 use std::path::Path;
 
 fn priority_from_char(char: char) -> u32{
@@ -67,35 +67,27 @@ pub fn run2(line: &str, acc: ((String, String), u32)) -> ((String, String), u32)
     }
 }
 
-fn reduce_input_lines<T>(filename: &String, function: &dyn Fn(&str, T) -> T, start_value: T) -> Result<T, Error> 
+fn reduce_input_lines<T: std::fmt::Debug>(function: &dyn Fn(&str, T) -> T, start_value: T) -> T  
     where String: AsRef<Path>{
+    let filename = "day3".to_string();
     let file_path = format!("./inputs/{}.txt", filename);
-    let file = File::open(file_path)?;
+    let file = File::open(file_path).unwrap();
     let lines = io::BufReader::new(file).lines();
     let mut last = start_value;
     for line in lines {
         last = function(line.unwrap().as_str(), last)
     }
     last = function("", last);
-    return Ok(last)
+    println!("Result1 is: {:?}", last);
+    return last;
 }
 
+
 pub fn output_results() {
-    let day = "day3".to_string();
-    let result = reduce_input_lines(&day, &run1, 0);
-    if result.is_ok() {
-        println!("Result1 is: {}", result.unwrap());
-    }else{
-        println!("Result1 not found");
-    }
-    let result2 = reduce_input_lines(&day, &run2, ((String::new(), String::new()), 0));
-    if result2.is_ok() {
-        let result2_val = result2.unwrap();
-        println!("Result2 is: {:?} ", result2_val);
-    }else{
-        println!("Result2 not found");
-    }
+    reduce_input_lines(&run1, 0);
+    reduce_input_lines(&run2, ((String::new(), String::new()), 0));
 }
+
 
 #[cfg(test)]
 mod tests {
