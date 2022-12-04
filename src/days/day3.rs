@@ -1,6 +1,4 @@
-use std::fs::File;
-use std::io::{self, BufRead};
-use std::path::Path;
+use crate::days;
 
 fn priority_from_char(char: char) -> u32{
     let mut b = [0; 2];
@@ -36,14 +34,15 @@ pub fn run1(line: &str, acc: u32) -> u32 {
     acc + score
 }
 
-pub fn run2(line: &str, acc: ((String, String), u32)) -> ((String, String), u32) {
+pub fn run2(line: &str, acc: Day3Type2) -> Day3Type2 {
+    let line_string = line.to_string();
     if line.is_empty(){
         acc
     }else{
         if acc.0.0.is_empty() {
-            ((line.to_string(), acc.0.1), acc.1)
+            ((line_string, acc.0.1), acc.1)
         }else if acc.0.1.is_empty() {
-            ((acc.0.0, line.to_string()), acc.1)
+            ((acc.0.0, line_string), acc.1)
         }else {
             let mut table: [u8;53] = [0;53];
             for char in acc.0.0.chars() {
@@ -67,26 +66,16 @@ pub fn run2(line: &str, acc: ((String, String), u32)) -> ((String, String), u32)
     }
 }
 
-fn reduce_input_lines<T: std::fmt::Debug>(function: &dyn Fn(&str, T) -> T, start_value: T) -> T  
-    where String: AsRef<Path>{
-    let filename = "day3".to_string();
-    let file_path = format!("./inputs/{}.txt", filename);
-    let file = File::open(file_path).unwrap();
-    let lines = io::BufReader::new(file).lines();
-    let mut last = start_value;
-    for line in lines {
-        last = function(line.unwrap().as_str(), last)
-    }
-    last = function("", last);
-    println!("Result1 is: {:?}", last);
-    return last;
-}
+type Day3Type1 = u32;
+type Day3Type2 = ((String, String), u32);
 
-
-pub fn output_results() {
-    reduce_input_lines(&run1, 0);
-    reduce_input_lines(&run2, ((String::new(), String::new()), 0));
-}
+pub const DAY : days::Day<Day3Type1, Day3Type2> = days::Day {
+    start1: 0,
+    start2: ((String::new(),String::new()), 0),
+    run1: &run1,
+    run2: &run2,
+    name: "day3"
+};
 
 
 #[cfg(test)]

@@ -1,6 +1,4 @@
-use std::fs::File;
-use std::io::{self, BufRead};
-use std::path::Path;
+use crate::days;
 use regex::Regex;
 
 pub fn run1(line: &str, acc: i32) -> i32 {
@@ -55,26 +53,18 @@ pub fn run2(line: &str, acc: i32) -> i32 {
     }
 }
 
-fn reduce_input_lines<T: std::fmt::Debug>(function: &dyn Fn(&str, T) -> T, start_value: T) -> T  
-    where String: AsRef<Path>{
-    let filename = "day2".to_string();
-    let file_path = format!("./inputs/{}.txt", filename);
-    let file = File::open(file_path).unwrap();
-    let lines = io::BufReader::new(file).lines();
-    let mut last = start_value;
-    for line in lines {
-        last = function(line.unwrap().as_str(), last)
-    }
-    last = function("", last);
-    println!("Result1 is: {:?}", last);
-    return last;
-}
+type Day2Type1 = i32;
+type Day2Type2 = i32;
+
+pub const DAY : days::Day<Day2Type1, Day2Type2> = days::Day {
+    start1: 0,
+    start2: 0,
+    run1: &run1,
+    run2: &run2,
+    name: "day2"
+};
 
 
-pub fn output_results() {
-    reduce_input_lines(&run1, 0);
-    reduce_input_lines(&run2, 0);
-}
 
 #[cfg(test)]
 mod tests {

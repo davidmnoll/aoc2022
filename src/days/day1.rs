@@ -30,21 +30,17 @@ pub fn run2(line: &str, acc: (Vec<i32>, (i32, i32, i32))) -> (Vec<i32>, (i32, i3
 }
 
 
-
-
-
 type Day1Type1 = (Vec<i32>, i32);
 type Day1Type2 = (Vec<i32>, (i32, i32, i32));
 
 pub const DAY : days::Day<Day1Type1, Day1Type2> = days::Day {
     start1: ( vec![], i32::MIN),
-    start2:  ( vec![], (i32::MIN, i32::MIN, i32::MIN)),
+    start2: ( vec![], (i32::MIN, i32::MIN, i32::MIN)),
     run1: &run1,
     run2: &run2,
     name: "day1"
 };
-        // self.reduce_input_lines(self.run1, ( vec![], i32::MIN));
-        // self.reduce_input_lines(self.run2, ( vec![], (i32::MIN, i32::MIN, i32::MIN)));
+
 #[cfg(test)]
 mod tests {
     use super::*;
