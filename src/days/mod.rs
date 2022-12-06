@@ -47,6 +47,6 @@ impl<'a,T,S> Day<'a, T,S>
         let res1 = (self.puzzle1.show)(self.reduce_input_lines(self.puzzle1.run, self.puzzle1.start.clone()));
         println!("Result1 is: {:?}", res1);
         let res2 = (self.puzzle2.show)(self.reduce_input_lines(self.puzzle2.run, self.puzzle2.start.clone()));
-        println!("Result1 is: {:?}", res2);
+        println!("Result2 is: {:?}", res2);
     }
 }
