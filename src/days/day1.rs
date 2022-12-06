@@ -34,12 +34,16 @@ type Day1Type1 = (Vec<i32>, i32);
 type Day1Type2 = (Vec<i32>, (i32, i32, i32));
 
 pub const DAY : days::Day<Day1Type1, Day1Type2> = days::Day {
-    start1: ( vec![], i32::MIN),
-    start2: ( vec![], (i32::MIN, i32::MIN, i32::MIN)),
-    run1: &run1,
-    run2: &run2,
-    show1: &|x|{format!("{:?}", x)},
-    show2: &|x|{format!("{:?}", x.1.0 + x.1.1 + x.1.2)},
+    puzzle1: days::Puzzle {
+        start: ( vec![], i32::MIN),
+        run: &run1,
+        show: &|x|{format!("{:?}", x)},
+    },
+    puzzle2: days::Puzzle { 
+        start: ( vec![], (i32::MIN, i32::MIN, i32::MIN)),
+        run: &run2,
+        show: &|x|{format!("{:?}", x.1.0 + x.1.1 + x.1.2)},
+    },
     name: "day1"
 };
 

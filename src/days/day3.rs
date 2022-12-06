@@ -1,15 +1,15 @@
 use crate::days;
 
-fn priority_from_char(char: char) -> u32{
+pub fn priority_from_char(char: char) -> u32{
     let mut b = [0; 2];
     char.encode_utf8(&mut b);
     let i = u32::from_be_bytes([0,0,0,b[0]]);
     return if i > 96 && i < 123{
-        i - 96
+        i - 97
     }else if i > 64 && i < 91 {
-        i - 38
+        i - 39
     }else {
-        0
+        u32::MAX
     };
 }
 
@@ -20,15 +20,20 @@ pub fn run1(line: &str, acc: u32) -> u32 {
     }
     let split_index = line.len() / 2;
     let (front, back) = line.split_at(split_index);
-    let mut table: [bool;53] = [false;53];
+    let mut table: [bool;52] = [false;52];
     for char in front.chars() {
-        table[(priority_from_char(char) as usize)] = true;
+        let index = priority_from_char(char) as usize;
+        if index < 52 {
+            table[(index)] = true;
+        }
     };
     let mut score = 0;
     for char in back.chars() {
         let val = priority_from_char(char);
-        if table[(val as usize)] {
-            score = val;
+        if val < 52 {
+            if table[(val as usize)] {
+                score = val + 1;
+            }
         }
     }
     acc + score
@@ -44,21 +49,30 @@ pub fn run2(line: &str, acc: Day3Type2) -> Day3Type2 {
         }else if acc.0.1.is_empty() {
             ((acc.0.0, line_string), acc.1)
         }else {
-            let mut table: [u8;53] = [0;53];
+            let mut table: [u8;52] = [0;52];
             for char in acc.0.0.chars() {
-                if table[(priority_from_char(char) as usize)] == 0 {
-                    table[(priority_from_char(char) as usize)] = 1;
+                let index = priority_from_char(char) as usize;
+                if index < 52 {
+                    if table[(index)] == 0 {
+                        table[(index)] = 1;
+                    }
                 }
             };
             for char in acc.0.1.chars() {
-                if table[(priority_from_char(char) as usize)] == 1 {
-                    table[(priority_from_char(char) as usize)] = 2;
+                let index = priority_from_char(char) as usize;
+                if index < 52 {
+                    if table[(index)] == 1 {
+                        table[(index)] = 2;
+                    }
                 }
             };
             let mut badge = 0;
             for char in line.chars() {
-                if table[(priority_from_char(char) as usize)] == 2 {
-                    badge = priority_from_char(char);
+                let index = priority_from_char(char) as usize;
+                if index < 52 {
+                    if table[index ] == 2 {
+                        badge = (index + 1) as u32;
+                    }
                 }
             };
             ((String::new(),String::new()), acc.1 + badge)
@@ -70,13 +84,17 @@ type Day3Type1 = u32;
 type Day3Type2 = ((String, String), u32);
 
 pub const DAY : days::Day<Day3Type1, Day3Type2> = days::Day {
-    start1: 0,
-    start2: ((String::new(),String::new()), 0),
-    run1: &run1,
-    run2: &run2,
+    puzzle1: days::Puzzle {
+        start: 0,
+        run: &run1,
+        show: &|x|{format!("{:?}", x)},
+    },
+    puzzle2: days::Puzzle {
+        start: ((String::new(),String::new()), 0),
+        run: &run2,
+        show: &|x|{format!("{:?}", x.1)},
+    },
     name: "day3",
-    show1: &|x|{format!("{:?}", x)},
-    show2: &|x|{format!("{:?}", x.1)},
 };
 
 
@@ -87,27 +105,27 @@ mod tests {
     #[test]
     fn char_map_right() {
         let mut x = priority_from_char('a');
-        assert!(priority_from_char('a') == 1);
-        assert!(priority_from_char('b') == 2);
-        assert!(priority_from_char('p') == 16);
-        assert!(priority_from_char('c') == 3);
+        assert!(priority_from_char('a') == 0);
+        assert!(priority_from_char('b') == 1);
+        assert!(priority_from_char('p') == 15);
+        assert!(priority_from_char('c') == 2);
         println!(" priority is : {:?}", x);
         x = priority_from_char('A');
         println!(" priority is : {:?}", x);
-        assert!(priority_from_char('A') == 27);
-        assert!(priority_from_char('L') == 38);
-        assert!(priority_from_char('P') == 42);
-        assert!(priority_from_char('v') == 22);
-        assert!(priority_from_char('s') == 19);
-        assert!(priority_from_char('t') == 20);
-        assert!(priority_from_char('z') == 26);
-        assert!(priority_from_char('Z') == 52);
-        assert!(priority_from_char(' ') == 0);
+        assert!(priority_from_char('A') == 26);
+        assert!(priority_from_char('L') == 37);
+        assert!(priority_from_char('P') == 41);
+        assert!(priority_from_char('v') == 21);
+        assert!(priority_from_char('s') == 18);
+        assert!(priority_from_char('t') == 19);
+        assert!(priority_from_char('z') == 25);
+        assert!(priority_from_char('Z') == 51);
+        assert!(priority_from_char(' ') == u32::MAX);
     }
 
     #[test]
     fn run1_runs() {
-        let res = run1("vJrwpWtwJgWrhcsFMMfFFhFp", DAY.start1);
+        let res = run1("vJrwpWtwJgWrhcsFMMfFFhFp", DAY.puzzle1.start);
         let res = run1("jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL", res);
         let res = run1("\n", res);
         let res = run1("PmmdzqPrVvPwwTWBwg", res);
@@ -124,7 +142,7 @@ mod tests {
 
     #[test]
     fn run2_runs() {
-        let res = run2("vJrwpWtwJgWrhcsFMMfFFhFp", DAY.start2);
+        let res = run2("vJrwpWtwJgWrhcsFMMfFFhFp", DAY.puzzle2.start);
         println!(" score is : {:?}", res);
         let res = run2("jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL", res);
         println!(" score is : {:?}", res);

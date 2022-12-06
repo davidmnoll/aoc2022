@@ -7,17 +7,21 @@ pub mod day2;
 pub mod day3;
 pub mod day4;
 pub mod day5;
+pub mod day6;
+
+
+pub struct Puzzle<'a, T> {
+    start: T,
+    run: & 'a dyn Fn(&str, T) -> T,
+    show:  & 'a dyn Fn(T) -> String,
+}
 
 
 
 pub struct Day<'a, T,S> {
     name: & 'a str,
-    start1: T,
-    start2: S,
-    run1: & 'a dyn Fn(&str, T) -> T,
-    run2: & 'a dyn Fn(&str, S) -> S,
-    show1: & 'a dyn Fn(T) -> String,
-    show2: & 'a dyn Fn(S) -> String,
+    puzzle1: Puzzle<'a, T>,
+    puzzle2: Puzzle<'a, S>,
 }
 
 impl<'a,T,S> Day<'a, T,S> 
@@ -40,9 +44,9 @@ impl<'a,T,S> Day<'a, T,S>
     }
 
     pub fn output_results(&self) {
-        let res1 = (self.show1)(self.reduce_input_lines(self.run1, self.start1.clone()));
+        let res1 = (self.puzzle1.show)(self.reduce_input_lines(self.puzzle1.run, self.puzzle1.start.clone()));
         println!("Result1 is: {:?}", res1);
-        let res2 = (self.show2)(self.reduce_input_lines(self.run2, self.start2.clone()));
+        let res2 = (self.puzzle2.show)(self.reduce_input_lines(self.puzzle2.run, self.puzzle2.start.clone()));
         println!("Result1 is: {:?}", res2);
     }
 }

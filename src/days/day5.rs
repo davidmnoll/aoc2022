@@ -6,25 +6,31 @@ type Day5Type1 = Vec<Vec<char>>;
 type Day5Type2 = Day5Type1;
 
 pub const DAY : days::Day<Day5Type1, Day5Type2> = days::Day {
-    start1: vec![],
-    start2: vec![],
-    run1: &run1,
-    run2: &run2,
+    puzzle1: days::Puzzle {
+        start: vec![],
+        run: &run1,
+        show: &|xs|{
+            let mut disp = "".to_string();
+            for x in xs {
+                disp.push(*x.last().unwrap())
+            }
+            disp
+        },
+    },
+    puzzle2: days::Puzzle {
+        start: vec![],
+        run: &run2,
+        show: &|xs|{
+            let mut disp = "".to_string();
+            for x in xs {
+                disp.push(*x.last().unwrap())
+            }
+            disp
+        },
+
+    },
     name: "day5",
-    show1: &|xs|{
-        let mut disp = "".to_string();
-        for x in xs {
-            disp.push(*x.last().unwrap())
-        }
-        disp
-    },
-    show2: &|xs|{
-        let mut disp = "".to_string();
-        for x in xs {
-            disp.push(*x.last().unwrap())
-        }
-        disp
-    },
+    
 };
 
 fn run1(line: & str, acc: Day5Type1) -> Day5Type1 {
@@ -102,7 +108,7 @@ mod tests {
 
     #[test]
     fn test_run1 () {
-        let res = run1("    [D]     ", DAY.start1);
+        let res = run1("    [D]     ", DAY.puzzle1.start);
         let res = run1("[N] [C]     ", res);
         let res = run1("[Z] [M] [P] ", res);
         let res = run1(" 1   2   3  ", res);
@@ -117,7 +123,7 @@ mod tests {
 
     #[test]
     fn test_run2 () {
-        let res = run2("    [D]     ", DAY.start1);
+        let res = run2("    [D]     ", DAY.puzzle2.start);
         let res = run2("[N] [C]     ", res);
         let res = run2("[Z] [M] [P] ", res);
         let res = run2(" 1   2   3  ", res);
