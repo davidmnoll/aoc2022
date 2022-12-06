@@ -31,7 +31,7 @@ fn main() {
             for i in 0..6 {
                 day_match(format!("day{}", i + 1))
             };
-            println!("Total time: {:?}", now.elapsed().as_secs_f32())
+            println!("Total time: {:?}s", now.elapsed().as_secs_f32())
         }
     }else if env::args().len() < 2{
         println!("please enter the day you would like to run e.g. for day 1 enter day1");
