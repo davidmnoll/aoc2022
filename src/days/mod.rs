@@ -44,9 +44,11 @@ impl<'a,T,S> Day<'a, T,S>
     }
 
     pub fn output_results(&self) {
+        let now = std::time::Instant::now();
         let res1 = (self.puzzle1.show)(self.reduce_input_lines(self.puzzle1.run, self.puzzle1.start.clone()));
-        println!("Result1 is: {:?}", res1);
+        println!("Result 1 for {} is: {} --- took {:?}s", self.name, res1, now.elapsed().as_secs_f32());
+        let now = std::time::Instant::now();
         let res2 = (self.puzzle2.show)(self.reduce_input_lines(self.puzzle2.run, self.puzzle2.start.clone()));
-        println!("Result2 is: {:?}", res2);
+        println!("Result 2 for {} is: {} --- took {:?}s", self.name, res2, now.elapsed().as_secs_f32());
     }
 }

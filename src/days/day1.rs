@@ -37,7 +37,7 @@ pub const DAY : days::Day<Day1Type1, Day1Type2> = days::Day {
     puzzle1: days::Puzzle {
         start: ( vec![], i32::MIN),
         run: &run1,
-        show: &|x|{format!("{:?}", x)},
+        show: &|x|{format!("{:?}", x.1)},
     },
     puzzle2: days::Puzzle { 
         start: ( vec![], (i32::MIN, i32::MIN, i32::MIN)),

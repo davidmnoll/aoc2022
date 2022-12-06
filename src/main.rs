@@ -27,9 +27,11 @@ fn main() {
         if first_argument != "all" {
             day_match(first_argument.clone());
         }else{
+            let now = std::time::Instant::now();
             for i in 0..6 {
                 day_match(format!("day{}", i + 1))
             };
+            println!("Total time: {:?}", now.elapsed().as_secs_f32())
         }
     }else if env::args().len() < 2{
         println!("please enter the day you would like to run e.g. for day 1 enter day1");
