@@ -62,7 +62,9 @@ pub const DAY : days::Day<Day2Type1, Day2Type2> = days::Day {
     start2: 0,
     run1: &run1,
     run2: &run2,
-    name: "day2"
+    name: "day2", 
+    show1: &|x|{format!("{:?}", x)},
+    show2: &|x|{format!("{:?}", x)},
 };
 
 
@@ -73,7 +75,7 @@ mod tests {
 
     #[test]
     fn run1_runs() {
-        let res = run1("A X", 0);
+        let res = run1("A X", DAY.start1);
         let res = run1("B Y", res);
         let res = run1("C Z", res);
         let res = run1("C Y", res);
@@ -84,7 +86,7 @@ mod tests {
 
     #[test]
     fn run2_runs() {
-        let res = run2("A X",0);
+        let res = run2("A X",DAY.start2);
         let res = run2("B Y", res);
         let res = run2("C Z", res);
         let res = run2("C Y", res);

@@ -6,6 +6,7 @@ use days::day1;
 use days::day2;
 use days::day3;
 use days::day4;
+use days::day5;
 
 fn main() {
     if env::args().len() == 2 {
@@ -16,6 +17,7 @@ fn main() {
             "day2" => day2::DAY.output_results(),
             "day3" => day3::DAY.output_results(),
             "day4" => day4::DAY.output_results(),
+            "day5" => day5::DAY.output_results(),
             _ => println!("FAILED")
         }
     }else if env::args().len() < 2{

@@ -38,6 +38,8 @@ pub const DAY : days::Day<Day1Type1, Day1Type2> = days::Day {
     start2: ( vec![], (i32::MIN, i32::MIN, i32::MIN)),
     run1: &run1,
     run2: &run2,
+    show1: &|x|{format!("{:?}", x)},
+    show2: &|x|{format!("{:?}", x.1.0 + x.1.1 + x.1.2)},
     name: "day1"
 };
 

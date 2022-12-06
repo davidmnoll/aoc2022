@@ -6,15 +6,18 @@ pub mod day1;
 pub mod day2;
 pub mod day3;
 pub mod day4;
+pub mod day5;
 
 
 
 pub struct Day<'a, T,S> {
     name: & 'a str,
-    run1: & 'a dyn Fn(&str, T) -> T,
-    run2: & 'a dyn Fn(&str, S) -> S,
     start1: T,
     start2: S,
+    run1: & 'a dyn Fn(&str, T) -> T,
+    run2: & 'a dyn Fn(&str, S) -> S,
+    show1: & 'a dyn Fn(T) -> String,
+    show2: & 'a dyn Fn(S) -> String,
 }
 
 impl<'a,T,S> Day<'a, T,S> 
@@ -33,12 +36,13 @@ impl<'a,T,S> Day<'a, T,S>
             last = function(line.unwrap().as_str(), last)
         }
         last = function("", last);
-        println!("Result1 is: {:?}", last);
         return last;
     }
 
     pub fn output_results(&self) {
-        self.reduce_input_lines(self.run1, self.start1.clone());
-        self.reduce_input_lines(self.run2, self.start2.clone());
+        let res1 = (self.show1)(self.reduce_input_lines(self.run1, self.start1.clone()));
+        println!("Result1 is: {:?}", res1);
+        let res2 = (self.show2)(self.reduce_input_lines(self.run2, self.start2.clone()));
+        println!("Result1 is: {:?}", res2);
     }
 }

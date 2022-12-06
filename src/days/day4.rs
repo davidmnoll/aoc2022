@@ -10,7 +10,9 @@ pub const DAY : days::Day<Day4Type1, Day4Type2> = days::Day {
     start2: 0,
     run1: &run1,
     run2: &run2,
-    name: "day4"
+    name: "day4",
+    show1: &|x|{format!("{:?}", x)},
+    show2: &|x|{format!("{:?}", x)},
 };
 
 fn run1 (line: &str, acc: Day4Type1) -> Day4Type1 {
@@ -52,7 +54,7 @@ mod tests {
 
     #[test]
     fn test_run1 () {
-        let res = run1("2-4,6-8", 0);
+        let res = run1("2-4,6-8", DAY.start1);
         let res = run1("2-3,4-5", res);
         let res = run1("5-7,7-9", res);
         let res = run1("2-8,3-7", res);
@@ -65,7 +67,7 @@ mod tests {
 
     #[test]
     fn test_run2 () {
-        let res = run2("2-4,6-8", 0);
+        let res = run2("2-4,6-8", DAY.start2);
         let res = run2("2-3,4-5", res);
         let res = run2("5-7,7-9", res);
         let res = run2("2-8,3-7", res);

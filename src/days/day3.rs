@@ -74,7 +74,9 @@ pub const DAY : days::Day<Day3Type1, Day3Type2> = days::Day {
     start2: ((String::new(),String::new()), 0),
     run1: &run1,
     run2: &run2,
-    name: "day3"
+    name: "day3",
+    show1: &|x|{format!("{:?}", x)},
+    show2: &|x|{format!("{:?}", x.1)},
 };
 
 
@@ -105,7 +107,7 @@ mod tests {
 
     #[test]
     fn run1_runs() {
-        let res = run1("vJrwpWtwJgWrhcsFMMfFFhFp", 0);
+        let res = run1("vJrwpWtwJgWrhcsFMMfFFhFp", DAY.start1);
         let res = run1("jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL", res);
         let res = run1("\n", res);
         let res = run1("PmmdzqPrVvPwwTWBwg", res);
@@ -122,7 +124,7 @@ mod tests {
 
     #[test]
     fn run2_runs() {
-        let res = run2("vJrwpWtwJgWrhcsFMMfFFhFp", (( String::new(), String::new()),0));
+        let res = run2("vJrwpWtwJgWrhcsFMMfFFhFp", DAY.start2);
         println!(" score is : {:?}", res);
         let res = run2("jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL", res);
         println!(" score is : {:?}", res);
