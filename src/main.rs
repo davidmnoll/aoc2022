@@ -8,6 +8,7 @@ use days::day3;
 use days::day4;
 use days::day5;
 use days::day6;
+use days::day7;
 
 fn main() {
     let day_match = |x: String|{
@@ -18,6 +19,7 @@ fn main() {
             "day4" => day4::DAY.output_results(),
             "day5" => day5::DAY.output_results(),
             "day6" => day6::DAY.output_results(),
+            "day7" => day7::DAY.output_results(),
             _ => println!("FAILED")
         }
     };       

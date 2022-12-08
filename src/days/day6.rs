@@ -84,15 +84,15 @@ mod tests {
 
     #[test]
     fn test_run2 () {
-        let res = run2("mjqjpqmgbljsphdztnvjfqwrcgsmlb", DAY.puzzle1.start);
+        let res = run2("mjqjpqmgbljsphdztnvjfqwrcgsmlb", DAY.puzzle2.start);
         assert!(res == 19, "{:?} not equal 19", res);
-        let res = run2("bvwbjplbgvbhsrlpgdmjqwftvncz", DAY.puzzle1.start);
+        let res = run2("bvwbjplbgvbhsrlpgdmjqwftvncz", DAY.puzzle2.start);
         assert!(res == 23, "{:?} not equal 23", res);
-        let res = run2("nppdvjthqldpwncqszvftbrmjlhg", DAY.puzzle1.start);
+        let res = run2("nppdvjthqldpwncqszvftbrmjlhg", DAY.puzzle2.start);
         assert!(res == 23, "{:?} not equal 23", res);
-        let res = run2("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", DAY.puzzle1.start);
+        let res = run2("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", DAY.puzzle2.start);
         assert!(res == 29, "{:?} not equal 29", res);
-        let res = run2("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", DAY.puzzle1.start);
+        let res = run2("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", DAY.puzzle2.start);
         assert!(res == 26, "{:?} not equal 26", res);
     }
 }
