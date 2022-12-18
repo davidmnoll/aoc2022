@@ -19,14 +19,16 @@ pub enum DirContents {
 }
 
 
+type WorkingDirPath = Vec<String>;
+type CurrentDirTree = Vec<DirContents>;
+type IsContents = bool;
 
-
-type Day7Type1 = (Vec<DirContents>, Vec<String>);
+type Day7Type1 = (CurrentDirTree, WorkingDirPath, IsContents );
 type Day7Type2 = u32;
 
 pub const DAY : days::Day<Day7Type1, Day7Type2> = days::Day {
     puzzle1: days::Puzzle {
-        start: (vec![], vec![]),
+        start: (vec![], vec![], false),
         run: &run1,
         show: &|x|{format!("{:?}", x)},
     },
@@ -48,28 +50,25 @@ fn run1(line: & str, acc: Day7Type1) -> Day7Type1 {
     let re_cmd_ls = Regex::new(r"^\$ ls\s*$").unwrap();
     let re_listing_file = Regex::new(r"^([0-9]+) ([\w\.]+)\s*$").unwrap();
     let re_listing_dir = Regex::new(r"^dir ([\w]+)\s*$").unwrap();
-    let result = re_cmd_cd.captures(line).map(|x|{
-        match x.get(1)?.as_str() {
-            "/" => (acc.0, vec![]) ,
-            ".." => {
-                acc.1.remove(acc.1.len() - 1);
-                (acc.0, acc.1) 
-            },
-            y => {
-                acc.1.push(y);  
-                (acc)
-            },
-            _ => None
-        }
-    });
-    return if matches_cmd_cd.is_some() {
-        (vec![DirContents::Dir {
-            name: "test1".to_string(),
-            contents: vec![]
-        }], vec![])
-    } else{
-        acc
-    }
+    let result_cmd_ls: Day7Type1 = re_cmd_ls.captures(line).map(|x|{(acc.0, acc.1, true)}).or_else(||{
+        return re_cmd_cd.captures(line).map(|x|{
+                return match x.get(1).unwrap().as_str() {
+                    "/" => (acc.0, vec![], false) ,
+                    ".." => {
+                        acc.1.remove(acc.1.len() - 1);
+                        (acc.0, acc.1, false) 
+                    },
+                    y => {
+                        acc.1.push(y.to_string()); 
+                        acc
+                    },
+                    _ => acc
+                }
+            }).or_else(||{
+
+        })
+    }).unwrap();
+
 }
 
 fn run2 (line: &str, acc: Day7Type2) -> Day7Type2 {
